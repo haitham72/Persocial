@@ -1,0 +1,12 @@
+{
+  "comment_id": ["comment_id", "id", "commentId"],
+  "post_id": ["post_id", "postID", "postId", "post_code", "code"],
+  "post_url": ["post_url", "postUrl", "url"],
+  "username": ["username", "ownerUsername", "user", "author"],
+  "author_id": ["author_id", "owner_id", "ownerId"],
+  "timestamp": ["timestamp", "created_at", "createdAt", "date"],
+  "likes": ["likes", "like_count", "likesCount", "likes_count"],
+  "parent_id": ["parent_id", "parentId", "parent"],
+  "account": ["account", "account_username"],
+  "text": ["text"]
+}

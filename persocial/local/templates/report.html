@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Persocial triage</title>
+<style>
+html { color-scheme: light; }
+body { font-family: system-ui, sans-serif; margin: 1em; background: #fff; color: #1b1c1e; }
+.summary { background: #f4f4f5; padding: .6em 1em; border-radius: 8px; margin-bottom: 1em; }
+.filters { display: flex; gap: .8em; flex-wrap: wrap; margin-bottom: 1em; align-items: end; }
+.filters label { font-size: .85em; display: flex; flex-direction: column; gap: .2em; }
+table { border-collapse: collapse; width: 100%; font-size: .85em; }
+th, td { border: 1px solid #ddd; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #fafafa; cursor: pointer; position: sticky; top: 0; }
+tr.hide-row { background: #fde8e8; }
+tr.review-row { background: #fff7e0; }
+td.text { max-width: 420px; }
+</style>
+</head>
+<body>
+<h1>Persocial triage</h1>
+<div class="summary">%%SUMMARY%%</div>
+<div class="filters">
+<label>verdict <select id="f-verdict"><option value="">all</option>
+%%VERDICT_OPTS%%</select></label>
+<label>category <select id="f-category"><option value="">all</option>
+%%CATEGORY_OPTS%%</select></label>
+<label>language <select id="f-language"><option value="">all</option>
+%%LANGUAGE_OPTS%%</select></label>
+<label>search <input id="f-q" type="text" placeholder="text or username"></label>
+</div>
+<table id="t">
+<thead><tr></tr></thead>
+<tbody>
+%%ROWS%%
+</tbody>
+</table>
+<script>
+const COLS = [%%COLUMNS%%];
+const thead = document.querySelector("#t thead tr");
+COLS.forEach((c, i) => {
+  const th = document.createElement("th");
+  th.textContent = c;
+  th.onclick = () => sortBy(i);
+  thead.appendChild(th);
+});
+const rows = [...document.querySelectorAll("#t tbody tr")];
+rows.forEach(tr => {
+  const v = tr.children[8].textContent;
+  if (v === "hide") tr.className = "hide-row";
+  else if (v === "review") tr.className = "review-row";
+});
+let dir = 1, lastCol = -1;
+function sortBy(i) {
+  dir = (i === lastCol) ? -dir : 1; lastCol = i;
+  const tb = document.querySelector("#t tbody");
+  rows.sort((a, b) => a.children[i].textContent.localeCompare(
+    b.children[i].textContent) * dir);
+  rows.forEach(r => tb.appendChild(r));
+}
+const fv = document.getElementById("f-verdict"),
+      fc = document.getElementById("f-category"),
+      fl = document.getElementById("f-language"),
+      fq = document.getElementById("f-q");
+function apply() {
+  const q = fq.value.toLowerCase();
+  rows.forEach(tr => {
+    const t = tr.textContent.toLowerCase();
+    const ok = (!fv.value || tr.children[8].textContent === fv.value)
+      && (!fc.value || tr.children[9].textContent === fc.value)
+      && (!fl.value || tr.children[4].textContent === fl.value)
+      && (!q || t.includes(q));
+    tr.style.display = ok ? "" : "none";
+  });
+}
+[fv, fc, fl].forEach(el => el.onchange = apply);
+fq.oninput = apply;
+</script>
+</body>
+</html>

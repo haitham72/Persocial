@@ -1,0 +1,25 @@
+---
+name: Feature request
+description: A new adapter, pack, platform or triage idea
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [input adapter, region pack, Solo CLI, Team app, judge quality, docs, other]
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What triage job is hard today? Use synthetic examples only.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+    validations:
+      required: true

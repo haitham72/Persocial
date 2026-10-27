@@ -1,0 +1,33 @@
+---
+name: Bug report
+description: Something in Solo or Team triage misbehaves
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `persocial doctor`, or the Team app commit
+    validations:
+      required: true
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      options: [Solo (CLI), Team (web app)]
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Repro
+      description: Commands run, sample input shape (never paste real comments or usernames)
+      placeholder: persocial run examples/sample/apify.json --no-judge
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true

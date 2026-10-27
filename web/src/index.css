@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-hide: var(--hide);
+  --color-hide-soft: var(--hide-soft);
+  --color-review: var(--review);
+  --color-review-soft: var(--review-soft);
+  --color-keep: var(--keep);
+  --color-keep-soft: var(--keep-soft);
+}
+
+:root {
+  --bg: #f6f6f4;
+  --panel: #ffffff;
+  --line: #e6e5e1;
+  --ink: #1b1c1e;
+  --dim: #5f6168;
+  --faint: #9a9ca3;
+  --accent: #2f5bd3;
+  --accent-soft: #e8eefc;
+  --hide: #c8322b;
+  --hide-soft: #fbe9e8;
+  --review: #b7791f;
+  --review-soft: #fbf1df;
+  --keep: #2f7d4f;
+  --keep-soft: #e6f3eb;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #121315;
+  --panel: #1a1b1e;
+  --line: #2a2c30;
+  --ink: #ececee;
+  --dim: #a3a5ad;
+  --faint: #6c6f77;
+  --accent: #7c9cf2;
+  --accent-soft: #1f2741;
+  --hide: #f0716a;
+  --hide-soft: #3a1d1c;
+  --review: #e3b15e;
+  --review-soft: #352a17;
+  --keep: #6cc794;
+  --keep-soft: #183022;
+  color-scheme: dark;
+}
+
+html, body, #root { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Arabic needs more line height than Latin to keep diacritics clear */
+.comment-text { line-height: 1.7; unicode-bidi: plaintext; }

@@ -1,0 +1,62 @@
+[project]
+name = "persocial-cli"
+version = "0.1.0"
+description = "Instagram comment moderation: ingest, scoring, LLM judge, review."
+requires-python = ">=3.11"
+license = "MIT"
+readme = "README.md"
+authors = [{ name = "haitham72", email = "59456439+haitham72@users.noreply.github.com" }]
+dependencies = [
+    # base: parse + store + report + judge client (Tier 1 Solo needs only these)
+    "httpx>=0.27",
+    "openai>=1.40",
+    "openpyxl>=3.1.5",
+    "pydantic-settings>=2.4",
+]
+
+[project.optional-dependencies]
+# Only the machine that scores comments needs these (GPU box / Mac); Colab installs its own.
+scoring = ["torch>=2.3", "transformers>=4.44", "pandas>=2.2"]
+# Team tier: the DB layer (worker, bootstrap, backfill, dataset, judge runner) + server deps.
+team = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "psycopg[binary]>=3.2",
+    "psycopg-pool>=3.2",
+    "python-multipart>=0.0.9",
+]
+dev = [
+    "pytest>=8",
+    "requests>=2.34.2",
+    "ruff>=0.6",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "requests>=2.34.2",
+    "ruff>=0.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/haitham72/Persocial"
+Repository = "https://github.com/haitham72/Persocial"
+Issues = "https://github.com/haitham72/Persocial/issues"
+
+[project.scripts]
+persocial = "persocial.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["persocial"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["db: needs the local Supabase database (CI job 2 runs these; job 1 deselects them)"]
